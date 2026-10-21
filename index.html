@@ -10,7 +10,8 @@
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700&family=Young+Serif&family=Fraunces:ital,opsz,wght,SOFT,WONK@1,9..144,700..900,0..100,0..1&family=Patrick+Hand&family=Gochi+Hand&display=swap" rel="stylesheet">
+<script>try{if(localStorage.getItem('look')==='storybook')document.documentElement.classList.add('sb')}catch(e){}</script>
 <link rel="preload" as="image" href="assets/hero-matcha-1200.jpg" imagesrcset="assets/hero-matcha-800.jpg 800w, assets/hero-matcha-1200.jpg 1200w" imagesizes="(min-width: 768px) 470px, 100vw">
 <style>
 :root{
@@ -81,6 +82,12 @@ h3{font-size:1.3rem;font-weight:600;letter-spacing:0}
 .status i{width:9px;height:9px;border-radius:50%;background:#b9a3a7}
 .status.open i{background:var(--matcha);box-shadow:0 0 0 3px var(--matcha-soft)}
 .status:empty{display:none}
+.look{flex:none;display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:none;cursor:pointer;transition:transform .4s var(--pop)}
+.look svg{width:40px;height:auto;pointer-events:none}
+.look:hover{transform:rotate(-12deg) scale(1.08)}
+.look.wiggle{animation:wiggle .6s var(--pop)}
+@keyframes wiggle{30%{transform:rotate(-16deg) scale(1.15)}60%{transform:rotate(10deg)}}
+.sb-only{display:none}
 
 .hero{position:relative;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);min-height:min(calc(100dvh - var(--nav-h)),860px);padding-bottom:var(--s);background-color:#fff5f8;background-image:var(--gingham);background-size:36px 36px;
   -webkit-mask:linear-gradient(#000 0 0) top/100% calc(100% - var(--s)) no-repeat,radial-gradient(var(--s) at 50% 0,#000 97%,#0000) bottom/calc(var(--s) * 2) var(--s) repeat-x;
@@ -221,10 +228,13 @@ footer .copy{margin-left:auto}
   :root{--nav-h:60px;--s:10px}
   body{font-size:16.5px;padding-bottom:calc(64px + env(safe-area-inset-bottom))}
   .links{display:none}
-  .brand img{width:48px}
-  .nav .wrap{gap:12px}
-  .brand span{font-size:18px;white-space:nowrap}
-  .status{height:32px;padding:0 11px;font-size:13px}
+  .brand{gap:7px}
+  .brand img{width:40px}
+  .nav .wrap{gap:10px}
+  .brand span{font-size:16px;white-space:nowrap}
+  .look{width:38px;height:38px}
+  .look svg{width:34px}
+  .status{height:32px;padding:0 9px;gap:6px;font-size:12px}
   .hero{grid-template-columns:1fr;min-height:0}
   .hero-copy{padding:36px var(--gut) 20px}
   .hero h1{font-size:clamp(2.8rem,13vw,3.7rem)}
@@ -264,10 +274,230 @@ footer .copy{margin-left:auto}
   .actions a:active{background:var(--cherry)}
 }
 @media (max-width:380px){
-  .brand{gap:7px}
-  .brand img{width:40px}
-  .brand span{font-size:16px}
-  .status{padding:0 9px;gap:6px;font-size:12px}
+  .brand img{display:none}
+}
+
+/* ================= storybook look (html.sb) ================= */
+html.sb{
+  --paper:#fff9ec;--ink:#6e1b2a;--muted:#8a4a56;--cherry:#8d1625;--berry:#8d1625;--line:rgba(141,22,37,.2);
+  --pink-1:#fff9ec;--pink-2:#fbc9d8;--pink-3:#f4a3bb;
+  --display:"Patrick Hand",cursive;--body:"Patrick Hand",cursive;
+  --storyserif:"Fraunces",Georgia,serif;
+  --max:1080px;--nav-h:104px;--s:14px;
+}
+html.sb body{background:#ffd4e1 url("assets/storybook/stripes.webp") 0 0/480px 480px;color:var(--ink);font:400 19px/1.5 var(--body);letter-spacing:.02em}
+html.sb ::selection{background:#fbc9d8;color:var(--cherry)}
+html.sb .sb-only{display:block}
+html.sb .deco,html.sb .hero-img,html.sb .mascot{display:none}
+html.sb h2,html.sb .story-copy h2{font:800 clamp(2.1rem,4.4vw,3.2rem)/1.04 var(--storyserif);font-style:italic;font-variation-settings:"SOFT" 100,"WONK" 1;letter-spacing:0;color:var(--cherry)}
+html.sb :focus-visible{outline:3px solid var(--cherry);outline-offset:3px}
+
+/* crayon outline + stitched inner edge, shared by every cream card */
+html.sb :is(.sec-head,.sb-ticket,.story-copy,.visit-grid > div:first-child,.extras){position:relative;background:var(--paper)}
+html.sb :is(.sec-head,.sb-ticket,.story-copy,.visit-grid > div:first-child,.extras)::before{content:"";position:absolute;inset:0;border:3px solid #7d2234;border-radius:3px;filter:url(#sb-rough);pointer-events:none}
+html.sb :is(.sec-head,.sb-ticket,.story-copy,.visit-grid > div:first-child,.extras)::after{content:"";position:absolute;inset:9px;border:2px dashed rgba(141,22,37,.38);border-radius:2px;pointer-events:none}
+
+/* ribbon buttons */
+html.sb .btn{height:46px;padding:0 30px;border:0;border-radius:0;box-shadow:none;font:400 17px/1 var(--body);letter-spacing:.16em;clip-path:polygon(0 0,100% 0,93% 50%,100% 100%,0 100%,7% 50%);transition:transform .25s var(--pop),background-color .2s}
+html.sb .btn:hover{transform:translateY(-2px);box-shadow:none}
+html.sb .btn:active{transform:translateY(1px)}
+html.sb .btn-fill{background:var(--cherry);color:#fff}
+html.sb .btn-fill:hover{background:#a51d30}
+html.sb .btn-line{background:#f2a0b8;color:var(--cherry)}
+html.sb .btn-line:hover{background:#f6b4c7}
+html.sb .btn-line::before,html.sb .btn-line::after{display:none}
+html.sb .btn:focus-visible{outline:none;text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:2px}
+
+/* nav: cream with a scalloped hem, centred wordmark like a shop sign */
+html.sb .nav{height:var(--nav-h);background:var(--paper);border-bottom:0;backdrop-filter:none;-webkit-backdrop-filter:none}
+html.sb .nav::after{content:"";position:absolute;left:0;right:0;top:100%;height:var(--s);background:radial-gradient(var(--s) at 50% 0,var(--paper) 97%,transparent) 50% 0/calc(var(--s) * 2) var(--s) repeat-x;pointer-events:none}
+html.sb .nav .wrap{display:grid;grid-template-columns:1fr auto 1fr;grid-template-rows:auto auto;align-content:center;gap:4px 20px}
+html.sb .brand{grid-column:2;grid-row:1;margin:0;justify-self:center;gap:8px}
+html.sb .brand img{width:46px}
+html.sb .brand span{font-size:30px;color:var(--cherry)}
+html.sb .links{grid-column:2;grid-row:2;justify-self:center;gap:24px}
+html.sb .links a{font:400 19px/1 var(--body);letter-spacing:.06em;color:var(--cherry);padding:2px 0 4px;border-radius:0;background:linear-gradient(var(--cherry),var(--cherry)) left bottom/0 2px no-repeat;transition:background-size .3s var(--ease)}
+html.sb .links a:hover{background-size:100% 2px;color:var(--cherry)}
+html.sb .links a::before,html.sb .links a::after{display:none}
+html.sb .look{grid-column:1;grid-row:1/3;justify-self:start;width:52px;height:52px;background:url("assets/storybook/bow.webp") center/88% no-repeat}
+html.sb .look svg{visibility:hidden}
+html.sb .status{grid-column:3;grid-row:1/3;justify-self:end;height:auto;padding:0;border:0;background:none;font:400 18px/1 var(--body);color:var(--cherry);letter-spacing:.04em}
+
+/* floating doodles: centred in the side gutters on wide screens, tucked in section corners otherwise */
+html.sb :is(.hero,.picks,.menu,.story,.visit){position:relative}
+html.sb .fl{position:absolute;inset:0;pointer-events:none;z-index:0}
+html.sb .dd{--w:min(var(--s),calc((100% - var(--max)) / 2 - 24px));position:absolute;top:var(--y);width:var(--w);aspect-ratio:1;background:center/contain no-repeat;transform:rotate(var(--r))}
+html.sb .dd.C{display:none}
+html.sb .dd.L{left:calc((100% - var(--max)) / 4 - var(--w) / 2)}
+html.sb .dd.R{right:calc((100% - var(--max)) / 4 - var(--w) / 2)}
+html.sb .dd.d-matcha{background-image:url("assets/storybook/matcha.webp")}
+html.sb .dd.d-croissant{background-image:url("assets/storybook/croissant.webp")}
+html.sb .dd.d-cookie{background-image:url("assets/storybook/cookie.webp")}
+html.sb .dd.d-loaf{background-image:url("assets/storybook/loaf.webp")}
+html.sb .dd.d-latte{background-image:url("assets/storybook/latte.webp")}
+html.sb .dd.d-straw{background-image:url("assets/storybook/straw.webp")}
+html.sb .dd.d-banana{background-image:url("assets/storybook/banana.webp")}
+html.sb .dd.d-cloud{background-image:url("assets/storybook/cloud.webp")}
+html.sb .dd.d-lemon{background-image:url("assets/storybook/lemon.webp")}
+html.sb .dd.d-bow{background-image:url("assets/storybook/bow.webp")}
+html.sb .dd.d-heart{background-image:url("assets/storybook/heart.webp")}
+html.sb .dd.d-spark{background-image:url("assets/storybook/spark.webp")}
+@media (max-width:1299px){
+  html.sb .dd:not(.C){display:none}
+  html.sb .dd.C{display:block;top:18px;width:min(var(--s),64px)}
+  html.sb .dd.C.L{left:max(14px,4vw)}
+  html.sb .dd.C.R{right:max(14px,4vw);left:auto}
+}
+html.sb .wrap,html.sb .story > :not(.fl){position:relative;z-index:1}
+html.sb .sb-ticket{z-index:1}
+html.sb .hero h1,html.sb .hero p,html.sb .hero .cta{z-index:2}
+@media (prefers-reduced-motion:no-preference){
+  html.sb .dd{animation:sb-float 6s ease-in-out infinite}
+  html.sb .dd:nth-child(2n){animation-delay:-2s}
+  html.sb .dd:nth-child(3n){animation-delay:-4s}
+  html.sb .dd.d-spark{animation:sb-twinkle 2.8s ease-in-out infinite}
+}
+@keyframes sb-float{50%{translate:0 -7px}}
+@keyframes sb-twinkle{50%{scale:.7;opacity:.7}}
+
+/* hero: the name-on-the-cup composition */
+html.sb .hero{--cw:clamp(280px,30vw,370px);display:grid;grid-template-columns:var(--cw) minmax(0,360px);grid-template-rows:1fr auto auto auto 1fr;column-gap:clamp(40px,7vw,104px);justify-content:center;min-height:0;padding:56px var(--gut) 64px;background:none;-webkit-mask:none;mask:none}
+html.sb .hero-copy{display:contents}
+html.sb .sb-cup{grid-column:1;grid-row:1/-1;width:var(--cw);aspect-ratio:750/1190;background:url("assets/storybook/cup.webp") 0 0/100% 100% no-repeat}
+html.sb .hero h1{grid-column:1;grid-row:1/-1;align-self:start;justify-self:center;z-index:2;width:calc(var(--cw) * .7936);max-width:none;margin-top:calc(var(--cw) * .8939);font:400 calc(var(--cw) * .125)/1.02 "Gochi Hand",cursive;letter-spacing:0;color:var(--cherry);text-align:center;text-wrap:balance;rotate:-3deg}
+html.sb .mark{background:none;padding:0}
+html.sb .sb-badge{grid-column:2;grid-row:2;justify-self:center;display:grid;place-items:center;width:min(236px,100%);aspect-ratio:1;background:url("assets/storybook/ring.webp") center/contain no-repeat}
+html.sb .sb-badge img{width:72%;height:auto;margin-top:-4%}
+html.sb .sb-ticket{grid-column:2;grid-row:3/5;margin-top:22px;-webkit-mask:radial-gradient(15px at 0 50%,#0000 97%,#000) left/51% 100% no-repeat,radial-gradient(15px at 100% 50%,#0000 97%,#000) right/51% 100% no-repeat;mask:radial-gradient(15px at 0 50%,#0000 97%,#000) left/51% 100% no-repeat,radial-gradient(15px at 100% 50%,#0000 97%,#000) right/51% 100% no-repeat}
+html.sb .hero p{grid-column:2;grid-row:3;z-index:2;max-width:none;margin:52px 34px 0;font-size:21px;line-height:1.45;color:var(--ink);text-align:center;text-wrap:balance}
+html.sb .hero .cta{grid-column:2;grid-row:4;z-index:2;justify-content:center;gap:10px;margin:20px 30px 32px}
+html.sb .hero .cta .btn{padding:0 22px;letter-spacing:.12em;font-size:16px}
+
+/* section headers sit on a cream plaque so no copy ever touches the stripes */
+html.sb .sec-head,html.sb .menu-head{width:fit-content;max-width:100%;margin:0 auto;padding:26px 40px 24px;text-align:center}
+html.sb .picks{padding:clamp(96px,10vw,128px) 0 clamp(80px,9vw,112px)}
+html.sb .picks .sub,html.sb .menu-head p{margin:10px auto 0;color:var(--ink);font-size:20px}
+
+/* picks: taped polaroids */
+html.sb .pick-row{gap:clamp(22px,3vw,38px);margin-top:56px}
+html.sb .pick{position:relative;background:var(--paper);padding:12px 12px 20px;box-shadow:0 2px 0 rgba(125,34,52,.1),0 16px 26px -14px rgba(125,34,52,.45);rotate:-2deg;transition:rotate .4s var(--pop),translate .4s var(--pop)}
+html.sb .pick:nth-child(even){rotate:2deg}
+html.sb .pick:hover{rotate:0deg;translate:0 -4px}
+html.sb .pick::before,html.sb .pick::after{content:"";position:absolute;top:-10px;width:78px;height:26px;background:rgba(255,246,226,.85);filter:drop-shadow(0 1px 1px rgba(125,34,52,.2));clip-path:polygon(0 8%,6% 0,12% 10%,18% 0,24% 8%,30% 0,70% 0,76% 8%,82% 0,88% 10%,94% 0,100% 8%,100% 92%,94% 100%,88% 90%,82% 100%,76% 92%,70% 100%,30% 100%,24% 92%,18% 100%,12% 90%,6% 100%,0 92%)}
+html.sb .pick::before{left:-20px;rotate:-38deg}
+html.sb .pick::after{right:-20px;rotate:38deg}
+html.sb .pick figure{border:0;border-radius:0;box-shadow:none;transform:none;background:#f3e7e0}
+html.sb .pick img{height:auto;border-radius:0;aspect-ratio:1/1}
+html.sb .pick:hover figure,html.sb .pick:nth-child(even) figure{transform:none}
+html.sb .pick h3{margin-top:14px;font:400 22px/1.15 var(--body);letter-spacing:.04em;color:var(--cherry);text-align:center}
+html.sb .pick-price{display:inline-block;margin:6px 0 0;background:var(--cherry);color:#fff;font:400 15px/1 var(--body);letter-spacing:.12em;padding:5px 12px;border-radius:999px;vertical-align:0}
+html.sb .pick p{margin:8px auto 0;text-align:center;font-size:17px;color:var(--muted)}
+
+/* menu: a cream paper band with scalloped edges, doily-plate items */
+html.sb .menu{background:var(--paper);padding:clamp(104px,10vw,120px) 0 clamp(80px,9vw,112px)}
+html.sb .menu::before{background:radial-gradient(var(--s) at 50% 100%,var(--paper) 97%,transparent) 50% 0/calc(var(--s) * 2) var(--s) repeat-x}
+html.sb .menu::after{content:"";position:absolute;left:0;right:0;bottom:calc(var(--s) * -1);height:var(--s);background:radial-gradient(var(--s) at 50% 0,var(--paper) 97%,transparent) 50% 0/calc(var(--s) * 2) var(--s) repeat-x;z-index:1}
+html.sb .menu-head{padding:0;width:auto}
+html.sb .menu-head::before,html.sb .menu-head::after{display:none}
+html.sb .menu-head p{max-width:52ch}
+html.sb .tabs{background:rgba(255,249,236,.97);justify-content:safe center}
+html.sb .tabs button{height:44px;padding:0 20px;border:2px solid var(--cherry);border-radius:999px;background:#fff;box-shadow:none;color:var(--cherry);font:400 18px/1 var(--body);letter-spacing:.06em}
+html.sb .tabs button:hover{background:#fde3ea}
+html.sb .tabs button[aria-selected="true"]{background:var(--cherry);color:#fff;transform:none;box-shadow:none}
+html.sb .tabs button::before,html.sb .tabs button::after{display:none}
+html.sb .panel-note{display:block;width:fit-content;margin:0 auto;border:0;background:#fde3ea;color:var(--cherry);font:400 17px/1 var(--body);letter-spacing:.06em;padding:9px 16px}
+html.sb .items{gap:40px clamp(16px,2.4vw,32px);margin-top:32px}
+html.sb .item{display:flex;flex-direction:column;align-items:center;text-align:center}
+html.sb .item figure{width:100%;aspect-ratio:1;padding:13%;border:0;border-radius:50%;box-shadow:none;background:url("assets/storybook/ring.webp") center/contain no-repeat;overflow:visible;transition:rotate .4s var(--pop)}
+html.sb .item img{width:100%;height:auto;aspect-ratio:1/1;border-radius:50%}
+html.sb .item:hover figure,html.sb .item:nth-child(even):hover figure{transform:none;rotate:-4deg}
+html.sb .item:hover img{transform:none}
+html.sb .item h4{position:relative;max-width:100%;margin-top:-6px;padding:7px 26px 8px;background:var(--cherry);color:#fff;font:400 17px/1.2 var(--body);letter-spacing:.05em;clip-path:polygon(0 0,100% 0,94% 50%,100% 100%,0 100%,6% 50%);text-wrap:balance}
+html.sb .price{margin-top:8px;font:400 18px/1.2 var(--body);letter-spacing:.06em;color:var(--cherry)}
+html.sb .price span{color:var(--muted);font-size:15px}
+html.sb .tag{margin-top:8px;padding:5px 12px;background:#f2a0b8;color:var(--cherry);font:400 15px/1 var(--body);letter-spacing:.05em;rotate:-3deg;transform:none}
+html.sb .extras{margin-top:64px;padding:30px 34px;border:0;border-radius:0;color:var(--ink);font-size:17px}
+html.sb .extras strong{color:var(--cherry);font:800 21px/1.2 var(--storyserif);font-style:italic;font-variation-settings:"SOFT" 100,"WONK" 1}
+
+/* story: a taped polaroid of the tile wall beside a cream card */
+html.sb .story{padding:clamp(110px,11vw,140px) max(var(--gut),calc((100% - var(--max)) / 2 + var(--gut))) clamp(90px,10vw,120px);gap:clamp(36px,6vw,72px);align-items:center;background:none}
+html.sb .story-tile{position:relative;min-height:440px;border:14px solid var(--paper);border-bottom-width:58px;box-shadow:0 18px 30px -16px rgba(125,34,52,.5);rotate:-2.5deg}
+html.sb .story-tile::before,html.sb .story-tile::after{content:"";position:absolute;top:-24px;width:92px;height:28px;background:rgba(255,246,226,.85);filter:drop-shadow(0 1px 1px rgba(125,34,52,.2));clip-path:polygon(0 8%,6% 0,12% 10%,18% 0,24% 8%,30% 0,70% 0,76% 8%,82% 0,88% 10%,94% 0,100% 8%,100% 92%,94% 100%,88% 90%,82% 100%,76% 92%,70% 100%,30% 100%,24% 92%,18% 100%,12% 90%,6% 100%,0 92%)}
+html.sb .story-tile::before{left:-30px;rotate:-38deg}
+html.sb .story-tile::after{right:-30px;rotate:38deg}
+html.sb .story-copy{padding:44px 44px 46px;text-align:left}
+html.sb .story-copy > *{max-width:none}
+html.sb .story-copy p{color:var(--ink);font-size:20px}
+html.sb .story-copy p.last{align-self:flex-start;margin-top:26px;padding:12px 34px 13px;border:0;border-radius:0;box-shadow:none;background:var(--cherry);color:#fff;font:400 19px/1.3 var(--body);letter-spacing:.06em;clip-path:polygon(0 0,100% 0,96% 50%,100% 100%,0 100%,4% 50%);transform:none;rotate:-1.5deg}
+
+/* visit: cream card for the details, polaroid for the map */
+html.sb .visit{padding:clamp(100px,10vw,128px) 0 clamp(110px,11vw,140px)}
+html.sb .visit-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr)}
+html.sb .visit-grid > div:first-child{padding:40px 40px 36px}
+html.sb .addr{font:400 26px/1.3 var(--body);letter-spacing:.03em;color:var(--cherry)}
+html.sb .near{color:var(--muted)}
+html.sb .hours{border:0;border-radius:0;box-shadow:none;background:none;padding:0}
+html.sb .hours h3{font:800 24px/1.1 var(--storyserif);font-style:italic;font-variation-settings:"SOFT" 100,"WONK" 1;color:var(--cherry);padding:0 0 12px;border-bottom:2px dashed rgba(141,22,37,.38)}
+html.sb .hours dt,html.sb .hours dd{padding:9px 12px}
+html.sb .hours .today dt,html.sb .hours .today dd{background:#fde3ea;color:var(--cherry);font-weight:400}
+html.sb .hours .today dt::after{font:400 12px/1 var(--body);background:var(--cherry);letter-spacing:.1em}
+html.sb .contact a{text-decoration-color:#f2a0b8;color:var(--cherry)}
+html.sb .map{position:relative;overflow:visible;border:12px solid var(--paper);border-bottom-width:46px;border-radius:0;background:var(--paper);box-shadow:0 18px 30px -16px rgba(125,34,52,.5);rotate:1.5deg}
+html.sb .map iframe{filter:saturate(.85) sepia(.06)}
+html.sb .map::before,html.sb .map::after{content:"";position:absolute;top:-22px;width:92px;height:28px;z-index:1;background:rgba(255,246,226,.85);filter:drop-shadow(0 1px 1px rgba(125,34,52,.2));clip-path:polygon(0 8%,6% 0,12% 10%,18% 0,24% 8%,30% 0,70% 0,76% 8%,82% 0,88% 10%,94% 0,100% 8%,100% 92%,94% 100%,88% 90%,82% 100%,76% 92%,70% 100%,30% 100%,24% 92%,18% 100%,12% 90%,6% 100%,0 92%)}
+html.sb .map::before{left:-28px;rotate:-38deg}
+html.sb .map::after{right:-28px;rotate:38deg}
+
+/* footer: solid pink with a cream-trimmed scallop */
+html.sb footer{background:#fbc9d8;color:var(--ink);font-size:17px}
+html.sb footer::before{background:radial-gradient(var(--s) at 50% 100%,#fbc9d8 97%,transparent) 50% 0/calc(var(--s) * 2) var(--s) repeat-x}
+html.sb footer .slogan{font:800 22px/1.2 var(--storyserif);font-style:italic;font-variation-settings:"SOFT" 100,"WONK" 1;color:var(--cherry)}
+html.sb footer .slogan svg{display:none}
+html.sb footer a{color:var(--cherry)}
+
+@media (max-width:1020px){
+  html.sb .visit-grid{grid-template-columns:1fr}
+  html.sb .visit-grid > div:first-child{max-width:640px}
+}
+@media (max-width:767px){
+  html.sb{--nav-h:66px;--s:10px}
+  html.sb body{font-size:18px}
+  html.sb .nav .wrap{display:flex;gap:10px}
+  html.sb .brand{margin-right:auto}
+  html.sb .brand{gap:6px}
+  html.sb .brand img{width:32px}
+  html.sb .brand span{font-size:18px;white-space:nowrap}
+  html.sb .look{width:36px;height:36px}
+  html.sb .status{font-size:14px;letter-spacing:.02em;white-space:nowrap}
+  html.sb .cta .btn{flex:0 1 auto}
+  html.sb .hero{--cw:min(70vw,300px);grid-template-columns:minmax(0,420px);grid-template-rows:auto;padding:36px var(--gut) 64px}
+  html.sb .sb-cup,html.sb .hero h1{grid-column:1;grid-row:1;justify-self:center}
+  html.sb .sb-badge{grid-column:1;grid-row:2;width:200px;margin-top:26px}
+  html.sb .sb-ticket{grid-column:1;grid-row:3/5}
+  html.sb .hero p{grid-column:1;grid-row:3;margin:46px 30px 0;font-size:19px}
+  html.sb .hero .cta{grid-column:1;grid-row:4;margin:18px 22px 30px}
+  html.sb .hero .cta .btn{flex:0 1 auto;padding:0 18px}
+  html.sb .sec-head{padding:22px 24px 20px}
+  html.sb .pick-row{padding:20px var(--gut) 18px;margin-top:36px}
+  html.sb .pick-row li{flex-basis:72%}
+  html.sb .items{gap:30px 14px}
+  html.sb .item h4{font-size:15.5px;padding:6px 18px 7px}
+  html.sb .price{font-size:16px}
+  html.sb .tabs button{height:40px;padding:0 16px;font-size:17px}
+  html.sb .extras{padding:24px 24px}
+  html.sb .story{grid-template-columns:1fr}
+  html.sb .story-tile{min-height:300px;margin:0 12px}
+  html.sb .story-copy{padding:34px 28px 36px}
+  html.sb .visit-grid > div:first-child{padding:32px 24px 28px}
+  html.sb .map{margin:0 10px}
+  html.sb .actions{background:var(--cherry);border-top:0;border-radius:0;overflow:visible}
+  html.sb .actions::before{content:"";position:absolute;left:0;right:0;top:calc(var(--s) * -1);height:var(--s);background:radial-gradient(var(--s) at 50% 100%,var(--cherry) 97%,transparent) 50% 0/calc(var(--s) * 2) var(--s) repeat-x}
+  html.sb .actions a{font:400 18px/1 var(--body);letter-spacing:.08em}
+  html.sb .actions a + a{border-left:2px dashed rgba(255,255,255,.3)}
+}
+@media (max-width:380px){
+  html.sb .brand img{display:none}
+  html.sb .status{font-size:13.5px}
 }
 </style>
 </head>
@@ -299,6 +529,13 @@ footer .copy{margin-left:auto}
     <ellipse cx="33" cy="59" rx="5" ry="3" fill="#ff7fa3" opacity=".75"/><ellipse cx="67" cy="59" rx="5" ry="3" fill="#ff7fa3" opacity=".75"/>
     <path d="M46 57q4 4 8 0" fill="none" stroke="#4a1d26" stroke-width="2.6" stroke-linecap="round"/>
   </symbol>
+  <filter id="sb-rough" x="-5%" y="-5%" width="110%" height="110%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="4" result="w"/>
+    <feDisplacementMap in="SourceGraphic" in2="w" scale="3" xChannelSelector="R" yChannelSelector="G" result="d"/>
+    <feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="1" seed="9" result="g"/>
+    <feColorMatrix in="g" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -2.6 0 0 0 2.3" result="m"/>
+    <feComposite in="d" in2="m" operator="in"/>
+  </filter>
 </svg>
 
 <header class="nav" id="nav">
@@ -312,6 +549,7 @@ footer .copy{margin-left:auto}
       <a href="#story">Our story</a>
       <a href="#visit">Visit</a>
     </nav>
+    <button class="look" id="look" type="button" aria-pressed="false" aria-label="Storybook look"><svg viewBox="0 0 140 92" aria-hidden="true"><use href="#i-bow"/></svg></button>
     <a class="status" id="status" href="#visit"></a>
   </div>
 </header>
@@ -335,13 +573,39 @@ footer .copy{margin-left:auto}
     <svg class="deco sparkle s2" aria-hidden="true"><use href="#i-sparkle"/></svg>
     <svg class="deco sparkle s3" aria-hidden="true"><use href="#i-sparkle"/></svg>
   </div>
+  <div class="sb-cup sb-only" aria-hidden="true"></div>
+  <div class="sb-badge sb-only" aria-hidden="true"><img src="assets/logo-filled-900.png" width="900" height="698" alt="" loading="lazy"></div>
+  <div class="sb-ticket sb-only" aria-hidden="true"></div>
+  <div class="fl sb-only" aria-hidden="true">
+    <i class="dd d-straw L" style="--y:10%;--s:66px;--r:-12deg"></i>
+    <i class="dd d-spark L" style="--y:30%;--s:30px;--r:0deg"></i>
+    <i class="dd d-croissant L" style="--y:46%;--s:120px;--r:-8deg"></i>
+    <i class="dd d-lemon L" style="--y:76%;--s:80px;--r:10deg"></i>
+    <i class="dd d-cloud R" style="--y:8%;--s:104px;--r:0deg"></i>
+    <i class="dd d-spark R" style="--y:26%;--s:24px;--r:0deg"></i>
+    <i class="dd d-cookie R" style="--y:44%;--s:90px;--r:-12deg"></i>
+    <i class="dd d-loaf R" style="--y:74%;--s:86px;--r:6deg"></i>
+    <i class="dd d-heart R" style="--y:90%;--s:34px;--r:-10deg"></i>
+  </div>
 </section>
 
 <section class="picks" aria-labelledby="picks-title">
+  <div class="fl sb-only" aria-hidden="true">
+    <i class="dd d-matcha L" style="--y:14%;--s:100px;--r:-8deg"></i>
+    <i class="dd d-heart L" style="--y:52%;--s:40px;--r:12deg"></i>
+    <i class="dd d-spark L" style="--y:78%;--s:26px;--r:0deg"></i>
+    <i class="dd d-latte R" style="--y:18%;--s:104px;--r:6deg"></i>
+    <i class="dd d-spark R" style="--y:44%;--s:24px;--r:0deg"></i>
+    <i class="dd d-bow R" style="--y:66%;--s:80px;--r:10deg"></i>
+    <i class="dd d-straw C L" style="--y:0;--s:52px;--r:-10deg"></i>
+    <i class="dd d-cloud C R" style="--y:0;--s:70px;--r:0deg"></i>
+  </div>
   <div class="wrap">
     <svg class="deco mascot" viewBox="0 0 100 100" aria-hidden="true"><use href="#i-cup"/></svg>
-    <h2 id="picks-title">Don’t leave without trying these</h2>
-    <p class="sub">Picks from Jessica and our regulars</p>
+    <div class="sec-head">
+      <h2 id="picks-title">Don’t leave without trying these</h2>
+      <p class="sub">Picks from Jessica and our regulars</p>
+    </div>
     <ul class="pick-row">
       <li class="pick reveal" style="--i:0">
         <figure><img src="assets/pick-strawberry-matcha-800.jpg" srcset="assets/pick-strawberry-matcha-480.jpg 480w, assets/pick-strawberry-matcha-800.jpg 800w" sizes="(min-width: 768px) 25vw, 74vw" width="800" height="1000" loading="lazy" alt="Strawberry matcha layered green over pink in a tall glass"></figure>
@@ -368,6 +632,22 @@ footer .copy{margin-left:auto}
 </section>
 
 <section class="menu" id="menu" aria-labelledby="menu-title">
+  <div class="fl sb-only" aria-hidden="true">
+    <i class="dd d-cookie L" style="--y:6%;--s:90px;--r:-12deg"></i>
+    <i class="dd d-banana L" style="--y:24%;--s:96px;--r:-16deg"></i>
+    <i class="dd d-spark L" style="--y:40%;--s:28px;--r:0deg"></i>
+    <i class="dd d-croissant L" style="--y:56%;--s:112px;--r:8deg"></i>
+    <i class="dd d-heart L" style="--y:74%;--s:40px;--r:12deg"></i>
+    <i class="dd d-matcha L" style="--y:88%;--s:90px;--r:-6deg"></i>
+    <i class="dd d-lemon R" style="--y:10%;--s:80px;--r:10deg"></i>
+    <i class="dd d-loaf R" style="--y:28%;--s:90px;--r:-6deg"></i>
+    <i class="dd d-spark R" style="--y:44%;--s:26px;--r:0deg"></i>
+    <i class="dd d-matcha R" style="--y:60%;--s:96px;--r:8deg"></i>
+    <i class="dd d-straw R" style="--y:78%;--s:64px;--r:12deg"></i>
+    <i class="dd d-cloud R" style="--y:92%;--s:96px;--r:0deg"></i>
+    <i class="dd d-latte C L" style="--y:0;--s:64px;--r:-6deg"></i>
+    <i class="dd d-heart C R" style="--y:0;--s:40px;--r:10deg"></i>
+  </div>
   <div class="wrap">
     <div class="menu-head">
       <h2 id="menu-title">Menu</h2>
@@ -485,6 +765,14 @@ footer .copy{margin-left:auto}
 </section>
 
 <section class="story" id="story" aria-labelledby="story-title">
+  <div class="fl sb-only" aria-hidden="true">
+    <i class="dd d-bow L" style="--y:18%;--s:86px;--r:-10deg"></i>
+    <i class="dd d-spark L" style="--y:62%;--s:28px;--r:0deg"></i>
+    <i class="dd d-cookie R" style="--y:26%;--s:90px;--r:10deg"></i>
+    <i class="dd d-heart R" style="--y:70%;--s:40px;--r:-12deg"></i>
+    <i class="dd d-spark C L" style="--y:0;--s:34px;--r:0deg"></i>
+    <i class="dd d-straw C R" style="--y:0;--s:54px;--r:10deg"></i>
+  </div>
   <div class="story-tile">
     <img src="assets/logo-filled-900.png" width="900" height="698" loading="lazy" alt="The Suma Coffee Co. logo: a woman with curly hair relaxing in a giant coffee cup">
   </div>
@@ -499,6 +787,16 @@ footer .copy{margin-left:auto}
 </section>
 
 <section class="visit" id="visit" aria-labelledby="visit-title">
+  <div class="fl sb-only" aria-hidden="true">
+    <i class="dd d-cloud L" style="--y:12%;--s:100px;--r:0deg"></i>
+    <i class="dd d-spark L" style="--y:48%;--s:28px;--r:0deg"></i>
+    <i class="dd d-lemon L" style="--y:74%;--s:78px;--r:-10deg"></i>
+    <i class="dd d-croissant R" style="--y:20%;--s:112px;--r:8deg"></i>
+    <i class="dd d-heart R" style="--y:58%;--s:40px;--r:-10deg"></i>
+    <i class="dd d-spark R" style="--y:84%;--s:26px;--r:0deg"></i>
+    <i class="dd d-heart C L" style="--y:0;--s:40px;--r:-8deg"></i>
+    <i class="dd d-lemon C R" style="--y:0;--s:56px;--r:10deg"></i>
+  </div>
   <div class="wrap visit-grid">
     <div>
       <h2 id="visit-title">Visit</h2>
@@ -553,6 +851,18 @@ footer .copy{margin-left:auto}
 <script>
 document.documentElement.classList.add('js');
 const nav = document.getElementById('nav');
+
+const look = document.getElementById('look');
+function setLook(sb){
+  document.documentElement.classList.toggle('sb', sb);
+  look.setAttribute('aria-pressed', sb);
+  try { localStorage.setItem('look', sb ? 'storybook' : 'classic'); } catch (e) {}
+}
+setLook(document.documentElement.classList.contains('sb'));
+look.addEventListener('click', () => {
+  setLook(!document.documentElement.classList.contains('sb'));
+  look.classList.remove('wiggle'); void look.offsetWidth; look.classList.add('wiggle');
+});
 
 const HOURS = {0:[8,18], 1:[7,16], 2:[7,20], 3:[7,20], 4:[7,20], 5:[7,21], 6:[8,20]};
 const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
