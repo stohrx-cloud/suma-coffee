@@ -55,7 +55,7 @@ h3{font-size:1.5rem}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
 
 /* ---------- the sticker field behind everything ---------- */
-.field{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.field{position:fixed;top:0;left:0;width:100%;height:100vh;height:100lvh;z-index:0;pointer-events:none;overflow:hidden}
 .field canvas{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;transition:opacity .9s ease}
 html.gl .field canvas{opacity:1}
 .stickers{position:absolute;left:0;top:0;width:100%;z-index:0;overflow:hidden;pointer-events:none}
@@ -742,12 +742,15 @@ window.sumaNoGL = function(){
   const layer = document.createElement('div');
   layer.className = 'stickers'; layer.setAttribute('aria-hidden', 'true');
   document.body.prepend(layer);
-  let els = [], to;
+  let els = [], to, lastKey = '';
   const place = s => { for (const e of els) e.el.style.setProperty('--sy', (s * (1 - e.rate)).toFixed(1) + 'px'); };
   function draw(){
     layer.style.height = '0px';
     const H = innerHeight, docH = document.documentElement.scrollHeight, S = Math.max(0, docH - H);
     layer.style.height = docH + 'px';
+    const key = innerWidth + ':' + docH;
+    if (key === lastKey) return;
+    lastKey = key;
     const items = window.sumaPlan(innerWidth, H, S);
     const frag = document.createDocumentFragment();
     els = [];
@@ -767,7 +770,8 @@ window.sumaNoGL = function(){
   if (window.ScrollTrigger) ScrollTrigger.create({start: 0, end: 'max', onUpdate: self => place(self.scroll())});
   else addEventListener('scroll', () => place(scrollY), {passive:true});
   const redraw = () => { clearTimeout(to); to = setTimeout(draw, 150); };
-  addEventListener('resize', redraw);
+  let lastW = innerWidth;
+  addEventListener('resize', () => { if (innerWidth !== lastW){ lastW = innerWidth; redraw(); } });
   if ('ResizeObserver' in window) new ResizeObserver(redraw).observe(document.body);
 };
 
@@ -877,10 +881,12 @@ function initField(THREE){
 
   let W = 0, H = 0, S = 0, items = [], meshes = [], wall = null;
 
+  let sizedW = 0, sizedH = 0;
   function plan(){
-    W = innerWidth; H = innerHeight;
-    S = Math.max(0, document.documentElement.scrollHeight - H);
-    renderer.setSize(W, H, false);
+    const box = canvas.parentElement.getBoundingClientRect();
+    W = Math.round(box.width) || innerWidth; H = Math.round(box.height) || innerHeight;
+    S = Math.max(0, document.documentElement.scrollHeight - innerHeight);
+    if (W !== sizedW || H !== sizedH){ renderer.setSize(W, H, false); sizedW = W; sizedH = H; }
     cam.right = W; cam.bottom = -H; cam.updateProjectionMatrix();
     items = window.sumaPlan(W, H, S);
     build();
@@ -953,9 +959,11 @@ function initField(THREE){
     plan();
     document.documentElement.classList.add('gl');
     renderer.setAnimationLoop(frame);
-    let to;
+    let to, lastW = innerWidth, lastH = innerHeight;
     const replan = () => { clearTimeout(to); to = setTimeout(plan, 120); };
-    addEventListener('resize', replan);
+    addEventListener('resize', () => {
+      if (innerWidth !== lastW || Math.abs(innerHeight - lastH) > 160){ lastW = innerWidth; lastH = innerHeight; replan(); }
+    });
     if ('ResizeObserver' in window) new ResizeObserver(replan).observe(document.body);
     addEventListener('pagehide', () => { renderer.setAnimationLoop(null); });
   }
